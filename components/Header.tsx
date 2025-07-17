@@ -41,7 +41,7 @@ const Header: React.FC = () => {
           <select
             value={fontType}
             onChange={(e) => handleFontChange(e.target.value as FontType)}
-            className="appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 pr-10 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-purple-500 dark:hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent transition-colors cursor-pointer"
+            className="appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 pr-0 md:pr-10 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-purple-500 dark:hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent transition-colors cursor-pointer"
             aria-label="Select font type"
           >
             {fontOptions.map((font) => (
