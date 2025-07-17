@@ -6,10 +6,15 @@ import { useStore } from '../store/useStore'
 import { FontType } from '../types/dictionary'
 
 const Header: React.FC = () => {
-  const { fontType, setFontType, toggleHistory, showHistory } = useStore()
+  const { fontType, setFontType, toggleHistory, showHistory, clearResults } =
+    useStore()
 
   const handleFontChange = (newFont: FontType) => {
     setFontType(newFont)
+  }
+
+  const handleLogoClick = () => {
+    clearResults()
   }
 
   const getFontLabel = (font: FontType) => {
@@ -29,12 +34,16 @@ const Header: React.FC = () => {
 
   return (
     <header className="flex items-center justify-between py-6 px-4 md:px-8 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-      <div className="flex items-center gap-4">
+      <button
+        onClick={handleLogoClick}
+        className="flex items-center gap-4 hover:opacity-80 transition-opacity cursor-pointer focus:outline-none  rounded-lg p-1"
+        aria-label="Go to home page"
+      >
         <BookOpen className="h-8 w-8 text-purple-600 dark:text-purple-400" />
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           WordWise
         </h1>
-      </div>
+      </button>
 
       <div className="flex items-center gap-4">
         <div className="relative">
