@@ -3,6 +3,8 @@ import { persist } from 'zustand/middleware'
 import {
   DictionaryEntry,
   SearchHistoryItem,
+  SearchSuggestion,
+  SearchSuggestionResponse,
   FontType,
   Theme
 } from '../types/dictionary'
@@ -13,7 +15,9 @@ interface AppState {
   isThemeManual: boolean
   searchQuery: string
   searchResult: DictionaryEntry[] | null
+  searchSuggestions: SearchSuggestion[]
   isLoading: boolean
+  isLoadingSuggestions: boolean
   error: string | null
   searchHistory: SearchHistoryItem[]
   showHistory: boolean
@@ -21,12 +25,16 @@ interface AppState {
   setFontType: (fontType: FontType) => void
   setSearchQuery: (query: string) => void
   setSearchResult: (result: DictionaryEntry[] | null) => void
+  setSearchSuggestions: (suggestions: SearchSuggestion[]) => void
   setIsLoading: (loading: boolean) => void
+  setIsLoadingSuggestions: (loading: boolean) => void
   setError: (error: string | null) => void
   addToHistory: (item: SearchHistoryItem) => void
   clearHistory: () => void
   toggleHistory: () => void
   searchWord: (word: string) => Promise<void>
+  fetchSuggestions: (query: string) => Promise<void>
+  clearResults: () => void
   initializeTheme: () => void
   toggleTheme: () => void
 }
@@ -74,7 +82,9 @@ export const useStore = create<AppState>()(
       isThemeManual: false,
       searchQuery: '',
       searchResult: null,
+      searchSuggestions: [],
       isLoading: false,
+      isLoadingSuggestions: false,
       error: null,
       searchHistory: [],
       showHistory: false,
@@ -83,7 +93,11 @@ export const useStore = create<AppState>()(
       setFontType: (fontType) => set({ fontType }),
       setSearchQuery: (query) => set({ searchQuery: query }),
       setSearchResult: (result) => set({ searchResult: result }),
+      setSearchSuggestions: (suggestions) =>
+        set({ searchSuggestions: suggestions }),
       setIsLoading: (loading) => set({ isLoading: loading }),
+      setIsLoadingSuggestions: (loading) =>
+        set({ isLoadingSuggestions: loading }),
       setError: (error) => set({ error }),
 
       addToHistory: (item) => {
@@ -105,6 +119,14 @@ export const useStore = create<AppState>()(
       clearHistory: () => set({ searchHistory: [] }),
       toggleHistory: () => set({ showHistory: !get().showHistory }),
 
+      clearResults: () =>
+        set({
+          searchResult: null,
+          searchSuggestions: [],
+          error: null,
+          searchQuery: ''
+        }),
+
       initializeTheme: () => {
         const isManual = get().isThemeManual
         if (!isManual) {
@@ -119,6 +141,37 @@ export const useStore = create<AppState>()(
         set({ theme: newTheme, isThemeManual: true })
       },
 
+      fetchSuggestions: async (query: string) => {
+        if (!query.trim()) {
+          set({ searchSuggestions: [] })
+          return
+        }
+
+        set({ isLoadingSuggestions: true })
+
+        try {
+          const response = await fetch(
+            `https://api.datamuse.com/words?sp=${encodeURIComponent(
+              query.trim()
+            )}*&max=8`
+          )
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch suggestions')
+          }
+
+          const data: { word: string; score?: number }[] = await response.json()
+          const suggestions: SearchSuggestion[] = data.map((item) => ({
+            word: item.word,
+            score: item.score || 0
+          }))
+
+          set({ searchSuggestions: suggestions, isLoadingSuggestions: false })
+        } catch (error) {
+          set({ searchSuggestions: [], isLoadingSuggestions: false })
+        }
+      },
+
       searchWord: async (word: string) => {
         const validationError = validateSearchInput(word)
         if (validationError) {
@@ -126,7 +179,7 @@ export const useStore = create<AppState>()(
           return
         }
 
-        set({ isLoading: true, error: null })
+        set({ isLoading: true, error: null, searchSuggestions: [] })
 
         try {
           const response = await fetch(
@@ -134,12 +187,19 @@ export const useStore = create<AppState>()(
           )
 
           if (!response.ok) {
-            throw new Error('Word not found')
+            // If word not found, search for suggestions
+            await get().fetchSuggestions(word)
+            throw new Error('Word not found. Here are some suggestions:')
           }
 
           const data: DictionaryEntry[] = await response.json()
 
-          set({ searchResult: data, isLoading: false })
+          // Clear suggestions when search is successful
+          set({
+            searchResult: data,
+            isLoading: false,
+            searchSuggestions: []
+          })
 
           get().addToHistory({
             word: word.trim(),

@@ -1,6 +1,6 @@
 export interface Phonetic {
   text: string
-  audio: string
+  audio?: string
 }
 
 export interface Definition {
@@ -13,6 +13,8 @@ export interface Definition {
 export interface Meaning {
   partOfSpeech: string
   definitions: Definition[]
+  synonyms?: string[]
+  antonyms?: string[]
 }
 
 export interface DictionaryEntry {
@@ -27,6 +29,17 @@ export interface SearchHistoryItem {
   word: string
   timestamp: Date
   success: boolean
+}
+
+// New types for search suggestions
+export interface SearchSuggestion {
+  word: string
+  score: number
+}
+
+export interface SearchSuggestionResponse {
+  suggestions: SearchSuggestion[]
+  originalQuery: string
 }
 
 export type FontType = 'serif' | 'sans' | 'mono'

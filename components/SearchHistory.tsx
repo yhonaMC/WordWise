@@ -69,7 +69,7 @@ const SearchHistory: React.FC = () => {
             </div>
           ) : (
             <div className="p-4">
-              {searchHistory.map((item, index) => (
+              {searchHistory.map((item) => (
                 <div
                   key={`${item.word}-${item.timestamp}`}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
