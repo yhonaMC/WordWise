@@ -1,36 +1,200 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 WordWise - Intelligent Dictionary App
 
-## Getting Started
+WordWise is a modern dictionary web application built with Next.js, TypeScript, and Tailwind CSS. It offers a fast and elegant search experience with audio pronunciation, search history, and complete light/dark theme support.
 
-First, run the development server:
+## ✨ Key Features
+
+### 🔍 **Smart Search**
+
+- Instant word search with robust validation
+- Error handling with informative messages
+- Automatic suggestions and corrections
+- Support for words with spaces, hyphens, and apostrophes
+
+### 📖 **Complete Definitions**
+
+- Detailed definitions with usage examples
+- Multiple meanings per word
+- Synonyms and antonyms
+- Clearly identified parts of speech
+
+### 🔊 **Audio Pronunciation**
+
+- Pronunciation playback when available
+- Phonetic transcription
+- Intuitive audio controls
+- Support for multiple pronunciation variants
+
+### 🎨 **Visual Customization**
+
+- **Themes**: Light and dark mode with automatic system detection
+- **Fonts**: Serif, Sans Serif, and Monospace
+- **Responsive**: Adaptive design for desktop, tablet, and mobile
+- **Animations**: Smooth transitions and loading states
+
+### 📝 **Search History**
+
+- Persistent history with date and time
+- Success/failure indicators for searches
+- Quick search from history
+- Option to clear history
+
+### ⚡ **Technical Features**
+
+- Server-side rendering (SSR)
+- Progressive hydration
+- Performance optimization
+- Complete accessibility (ARIA)
+- Hover and focus states
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+- **[Next.js 15](https://nextjs.org/)** - React framework with App Router
+- **[TypeScript](https://www.typescriptlang.org/)** - Static typing
+- **[Tailwind CSS v4](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[React 19](https://react.dev/)** - UI library
+
+### State and Data
+
+- **[Zustand](https://github.com/pmndrs/zustand)** - State management with persistence
+- **[Dictionary API](https://dictionaryapi.dev/)** - Free dictionary API
+
+### Tools
+
+- **[Lucide React](https://lucide.dev/)** - Modern icons
+- **[Google Fonts](https://fonts.google.com/)** - Web fonts (Inter, Lora, JetBrains Mono)
+- **[ESLint](https://eslint.org/)** - Code linting
+- **[Yarn](https://yarnpkg.com/)** - Package manager
+
+## 🚀 Installation
+
+### Prerequisites
+
+- Node.js 18.0 or higher
+- Yarn (recommended) or npm
+
+### Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/wordwise.git
+cd wordwise
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+# or
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Run in Development
 
-## Learn More
+```bash
+yarn dev
+# or
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Build for Production
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+yarn build
+yarn start
+# or
+npm run build
+npm start
+```
 
-## Deploy on Vercel
+## 💡 Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Basic Search
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Enter a word in the search field
+2. Press Enter or click "Search"
+3. Explore definitions, examples, and synonyms
+
+### Change Theme
+
+- Click the moon/sun icon in the header
+- Or let it automatically adjust according to your system
+
+### Change Font
+
+- Select between Serif, Sans Serif, or Mono in the header dropdown
+
+### Play Audio
+
+- Click the "Play" button next to the pronunciation
+- Audio plays automatically when available
+
+### Access History
+
+- Click the history icon in the header
+- Select any previous search to repeat it
+
+## 📁 Project Structure
+
+```
+wordwise/
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # Main layout
+│   ├── page.tsx           # Main page
+│   └── globals.css        # Global styles
+├── components/            # React components
+│   ├── Header.tsx         # Header with controls
+│   ├── SearchInput.tsx    # Search field
+│   ├── WordDefinition.tsx # Display definitions
+│   ├── AudioPlayer.tsx    # Audio player
+│   ├── SearchHistory.tsx  # History modal
+│   └── ThemeProvider.tsx  # Theme provider
+├── store/                 # Global state
+│   └── useStore.ts        # Zustand store
+├── types/                 # TypeScript types
+│   └── dictionary.ts      # API types
+└── public/               # Static assets
+```
+
+## 🌐 API Used
+
+**[Free Dictionary API](https://dictionaryapi.dev/)**
+
+- Endpoint: `https://api.dictionaryapi.dev/api/v2/entries/en/{word}`
+- Free and no authentication required
+- JSON format responses
+- Includes audio, phonetics, and examples
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+yarn dev          # Development server
+yarn build        # Build for production
+yarn start        # Run production build
+yarn lint         # Run ESLint
+```
+
+### Implemented Features
+
+- ✅ Word search with validation
+- ✅ Complete definition display
+- ✅ Audio playback
+- ✅ Persistent search history
+- ✅ Font selection
+- ✅ Fully responsive design
+- ✅ Robust input validation
+- ✅ Loading and error states
+- ✅ Complete accessibility
+
+### Quality Features
+
+- **TypeScript**: Complete static typing
+- **Responsive**: Works on all devices
+- **Accessible**: Meets WCAG standards
+- **Performant**: Optimized for speed
+- **Maintainable**: Clean and documented code
